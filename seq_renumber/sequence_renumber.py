@@ -51,20 +51,20 @@ if __name__ == '__main__':
                         help="The source directory on which the renumber is to be executed")
     parser.add_argument("-z","--Zero_Padding",dest='padZero',default=None,nargs='?',
                         help="Number of zeros to pad to the resultant sequence")
+    parser.add_argument('-r', "--Recursive",dest='recursive',action='store_true')
     
     opts = parser.parse_args()
-    
     if not opts.sourceDir:
         print "Error : Please specify the source directory"
         sys.exit(1)
     sourceDir = opts.sourceDir[0]
-    
+     
     padZero = 0
     if opts.padZero:
         if(opts.padZero<0):
             print 'Error : Zero padding value shout not be negative'
         else:
             padZero = int(opts.padZero)
-    
+     
     sourceDirAbsPath = os.path.abspath(sourceDir)
-    SequenceRenumber(sourceDir=sourceDirAbsPath, padZero=padZero, renameUnnumberedFiles=False, recursive=False)
+    SequenceRenumber(sourceDir=sourceDirAbsPath, padZero=padZero, renameUnnumberedFiles=False, recursive=opts.recursive)
