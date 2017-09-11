@@ -45,7 +45,26 @@ def SequenceRenumber(sourceDir="",padZero=0,renameUnnumberedFiles=False,recursiv
                     continue
 
 if __name__ == '__main__':
-    sourceDirAbsPath = os.path.abspath('./sample_b')
-    SequenceRenumber(sourceDir=sourceDirAbsPath, padZero=2, renameUnnumberedFiles=False, recursive=False)
-    sourceDirAbsPath = os.path.abspath('./sample_c')
-    SequenceRenumber(sourceDir=sourceDirAbsPath, padZero=4, renameUnnumberedFiles=True, recursive=True)
+    
+    parser = argparse.ArgumentParser()
+    parser.add_argument("-s","--Source_Directory_Path",dest='sourceDir',default=None,nargs='+',
+                        help="The source directory on which the renumber is to be executed")
+    parser.add_argument("-z","--Zero_Padding",dest='padZero',default=None,nargs='?',
+                        help="Number of zeros to pad to the resultant sequence")
+    
+    opts = parser.parse_args()
+    
+    if not opts.sourceDir:
+        print "Error : Please specify the source directory"
+        sys.exit(1)
+    sourceDir = opts.sourceDir[0]
+    
+    padZero = 0
+    if opts.padZero:
+        if(opts.padZero<0):
+            print 'Error : Zero padding value shout not be negative'
+        else:
+            padZero = int(opts.padZero)
+    
+    sourceDirAbsPath = os.path.abspath(sourceDir)
+    SequenceRenumber(sourceDir=sourceDirAbsPath, padZero=padZero, renameUnnumberedFiles=False, recursive=False)
