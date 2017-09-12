@@ -10,7 +10,6 @@ def SequenceRenumber(sourceDir="",padZero=0,recursive=False):
     if not os.path.isdir(sourceDir):
         print 'Error : {0} directory does not exist !'.format(sourceDir)
         return
-
     if(padZero<0):
         print 'Error : Zero padding value should not be negative'
         return
@@ -36,7 +35,7 @@ def SequenceRenumber(sourceDir="",padZero=0,recursive=False):
                 sequenceMap[(name,extension)] = 1
             itemRename = '{0}{1}.{2}'.format(name,str(sequenceMap[(name,extension)]).zfill(padZero),extension)
             fullPathRename = os.path.join(sourceDir,itemRename)
-            print 'Renaming {0} to {1}'.format(fullPath,fullPathRename)
+            print 'Renamed: {0} --> {1}'.format(fullPath,fullPathRename)
             os.rename(fullPath,fullPathRename)
         else:
             if os.path.isdir(fullPath):
@@ -67,8 +66,4 @@ if __name__ == '__main__':
       
     sourceDirAbsPath = os.path.abspath(opts.sourceDir)
     SequenceRenumber(sourceDir=sourceDirAbsPath, padZero=padZero, recursive=opts.recursive)
-    
-    
-    
-    
     
