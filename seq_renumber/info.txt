@@ -1,11 +1,11 @@
 
-SequenceRenumber is a tool to assist with re-numbering sequences of images. 
+SequenceRenumber is a tool to assist with renumbering sequences of images. 
 
-1. Uses regular-expressions to extract name, number and extension of the file.
-2. Supports recursive operatin on children directories.
+1. Uses regular expressions to extract name, number, and extension of the file.
+2. Supports recursive operation on children directories.
 3. Skips files which do not fit into the renaming rules and gives warning.
-4. The resultant sequence can be padded with specified number of zeros.
-5. Currently assumes that the filenames are alphanumeric+underscore. But can be easily changed with a modified reg-ex pattern.
+4. The resultant sequence can be padded with a specified number of zeros.
+5. Currently, assumes that the filenames are alphanumeric+underscore. But can be easily changed with a modified reg-ex pattern.
 
 Below is a list of commands and their output which show how to use the tool.
 -----------------------------------------------------------------------------------------------  
@@ -90,3 +90,12 @@ Renamed : weta37.jpg --> weta0003.jpg
 Renamed : weta55.jpg --> weta0004.jpg
 Renamed : weta96.jpg --> weta0005.jpg
 
+-----------------------------------------------------------------------------------------------
+
+user@user-Z97X-UD3H-BK:~/git/sandbox_python/seq_renumber$ ./sequence_renumber.py -z 2 ./sample_test
+Error : /home/user/git/sandbox_python/seq_renumber/sample_test directory does not exist !
+
+-----------------------------------------------------------------------------------------------
+
+user@user-Z97X-UD3H-BK:~/git/sandbox_python/seq_renumber$ ./sequence_renumber.py -z -5 ./sample_a
+Error : Zero padding value can not be negative

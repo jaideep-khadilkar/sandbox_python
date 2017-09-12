@@ -11,18 +11,21 @@ def SequenceRenumber(sourceDir='',padZero=0,recursive=False,rootDir=''):
         print 'Error : {0} directory does not exist !'.format(sourceDir)
         return
     if(padZero<0):
-        print 'Error : Zero padding value should not be negative'
+        print 'Error : Zero padding value can not be negative'
         return
     if(rootDir==''):
         rootDir = sourceDir
 
     items = os.listdir(sourceDir)
+    # Sort input items to avoid clashing while renaming
     items.sort()
+    # sequenceMap to track number of files in a sequence with a particular name and extension.
     sequenceMap = {}
 
     for item in items:
         fullPath = os.path.join(sourceDir,item)
         if os.path.isfile(fullPath):
+            # Uses reg-ex to extract name, number and extension from a filename.
             pattern = r"(?P<name>[a-zA-Z0-9_]+[a-zA-Z_]+)(?P<number>[0-9]+)\.(?P<extension>[a-zA-Z0-9]+)"
             match = re.match(pattern,item)
             if(not match):
@@ -30,10 +33,12 @@ def SequenceRenumber(sourceDir='',padZero=0,recursive=False,rootDir=''):
                 continue
             name = match.group('name')
             extension = match.group('extension')
+            # If sequence exists in the map, increase the count.Else initialize it to 1.
             if(name,extension) in sequenceMap:
                 sequenceMap[(name,extension)] = sequenceMap[(name,extension)] + 1
             else:
                 sequenceMap[(name,extension)] = 1
+            # Rename the file.
             itemRename = '{0}{1}.{2}'.format(name,str(sequenceMap[(name,extension)]).zfill(padZero),extension)
             fullPathRename = os.path.join(sourceDir,itemRename)
             print 'Renamed : {0} --> {1}'.format(os.path.relpath(fullPath,rootDir),os.path.relpath(fullPathRename,rootDir))
@@ -41,6 +46,7 @@ def SequenceRenumber(sourceDir='',padZero=0,recursive=False,rootDir=''):
         else:
             if os.path.isdir(fullPath):
                 if recursive:
+                    # Run renumbering on children directories.
                     SequenceRenumber(fullPath, padZero, recursive,rootDir=sourceDir)
                 else:
                     print 'Warning : Skipping directory {0}'.format(item)
