@@ -4,7 +4,6 @@ import os
 import re
 import sys
 import argparse
-import logging
 
 def SequenceRenumber(sourceDir='',padZero=0,recursive=False,rootDir=''):
     # Validate Inputs
@@ -30,7 +29,6 @@ def SequenceRenumber(sourceDir='',padZero=0,recursive=False,rootDir=''):
                 print 'Warning : Skipping {0}. It does not fit into the renaming rules.'.format(os.path.relpath(fullPath,rootDir))
                 continue
             name = match.group('name')
-            number = match.group('number')
             extension = match.group('extension')
             if(name,extension) in sequenceMap:
                 sequenceMap[(name,extension)] = sequenceMap[(name,extension)] + 1
@@ -49,8 +47,12 @@ def SequenceRenumber(sourceDir='',padZero=0,recursive=False,rootDir=''):
                     continue
     return
 
+"""
+This is the entry point for CLI runs. Please use `--help` for help.
+"""
 if __name__ == '__main__':
     
+    # Parse Arguments
     parser = argparse.ArgumentParser()
     parser.add_argument("sourceDir",default=None,metavar='SOURCE_DIRECTORY',
                         help="Absolute or relative path to the source directory on which the renumber is to be executed")
@@ -59,6 +61,7 @@ if __name__ == '__main__':
     parser.add_argument('-r', "--Recursive",dest='recursive',action='store_true',default=None,required=False,
                         help="Recursively apply operation to the children directories.")
     
+    # Validate Inputs
     opts = parser.parse_args()
     if not opts.sourceDir:
         print "Error : Please specify the source directory"
@@ -67,7 +70,7 @@ if __name__ == '__main__':
     padZero = 0
     if opts.padZero:
         padZero = int(opts.padZero)
-      
+
     sourceDirAbsPath = os.path.abspath(opts.sourceDir)
     SequenceRenumber(sourceDir=sourceDirAbsPath, padZero=padZero, recursive=opts.recursive)
     
