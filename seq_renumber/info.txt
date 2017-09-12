@@ -1,61 +1,92 @@
+
+SequenceRenumber is a tool to assist with re-numbering sequences of images. 
+
+1. Uses regular-expressions to extract name, number and extension of the file.
+2. Supports recursive operatin on children directories.
+3. Skips files which do not fit into the renaming rules and gives warning.
+4. The resultant sequence can be padded with specified number of zeros.
+5. Currently assumes that the filenames are alphanumeric+underscore. But can be easily changed with a modified reg-ex pattern.
+
+Below is a list of commands and their output which show how to use the tool.
+-----------------------------------------------------------------------------------------------  
+
+user@user-Z97X-UD3H-BK:~/git/sandbox_python/seq_renumber$ ./sequence_renumber.py --help
+usage: sequence_renumber.py [-h] [-z N] [-r] SOURCE_DIRECTORY
+
+positional arguments:
+  SOURCE_DIRECTORY      Absolute or relative path to the source directory on
+                        which the renumber is to be executed
+
+optional arguments:
+  -h, --help            show this help message and exit
+  -z N, --Zero_Padding N
+                        Number of zeros to pad to the resultant sequence
+  -r, --Recursive       Recursively apply operation to the children
+                        directories.
+
+-----------------------------------------------------------------------------------------------
+
 user@user-Z97X-UD3H-BK:~/git/sandbox_python/seq_renumber$ ./sequence_renumber.py -z 2 ./sample_a
 Warning : Skipping directory child_dir
-Renaming /home/user/git/sandbox_python/seq_renumber/sample_a/prodeng11.jpg to /home/user/git/sandbox_python/seq_renumber/sample_a/prodeng01.jpg
-Renaming /home/user/git/sandbox_python/seq_renumber/sample_a/prodeng11.png to /home/user/git/sandbox_python/seq_renumber/sample_a/prodeng01.png
-Renaming /home/user/git/sandbox_python/seq_renumber/sample_a/prodeng27.jpg to /home/user/git/sandbox_python/seq_renumber/sample_a/prodeng02.jpg
-Renaming /home/user/git/sandbox_python/seq_renumber/sample_a/prodeng32.jpg to /home/user/git/sandbox_python/seq_renumber/sample_a/prodeng03.jpg
-Renaming /home/user/git/sandbox_python/seq_renumber/sample_a/prodeng32.png to /home/user/git/sandbox_python/seq_renumber/sample_a/prodeng02.png
-Renaming /home/user/git/sandbox_python/seq_renumber/sample_a/prodeng33.png to /home/user/git/sandbox_python/seq_renumber/sample_a/prodeng03.png
-Renaming /home/user/git/sandbox_python/seq_renumber/sample_a/prodeng47.png to /home/user/git/sandbox_python/seq_renumber/sample_a/prodeng04.png
-Renaming /home/user/git/sandbox_python/seq_renumber/sample_a/prodeng55.jpg to /home/user/git/sandbox_python/seq_renumber/sample_a/prodeng04.jpg
-Renaming /home/user/git/sandbox_python/seq_renumber/sample_a/prodeng55.png to /home/user/git/sandbox_python/seq_renumber/sample_a/prodeng05.png
-Renaming /home/user/git/sandbox_python/seq_renumber/sample_a/prodeng56.jpg to /home/user/git/sandbox_python/seq_renumber/sample_a/prodeng05.jpg
-Renaming /home/user/git/sandbox_python/seq_renumber/sample_a/prodeng68.jpg to /home/user/git/sandbox_python/seq_renumber/sample_a/prodeng06.jpg
-Renaming /home/user/git/sandbox_python/seq_renumber/sample_a/prodeng72.png to /home/user/git/sandbox_python/seq_renumber/sample_a/prodeng06.png
-Renaming /home/user/git/sandbox_python/seq_renumber/sample_a/prodeng94.png to /home/user/git/sandbox_python/seq_renumber/sample_a/prodeng07.png
-Warning : Skipping item unnumberedFile.jpg. It does not fit into the renaming rules
-Renaming /home/user/git/sandbox_python/seq_renumber/sample_a/weta17.jpg to /home/user/git/sandbox_python/seq_renumber/sample_a/weta01.jpg
-Renaming /home/user/git/sandbox_python/seq_renumber/sample_a/weta22.jpg to /home/user/git/sandbox_python/seq_renumber/sample_a/weta02.jpg
-Renaming /home/user/git/sandbox_python/seq_renumber/sample_a/weta37.jpg to /home/user/git/sandbox_python/seq_renumber/sample_a/weta03.jpg
-Renaming /home/user/git/sandbox_python/seq_renumber/sample_a/weta55.jpg to /home/user/git/sandbox_python/seq_renumber/sample_a/weta04.jpg
-Renaming /home/user/git/sandbox_python/seq_renumber/sample_a/weta96.jpg to /home/user/git/sandbox_python/seq_renumber/sample_a/weta05.jpg
+Renamed : prodeng11.jpg --> prodeng01.jpg
+Renamed : prodeng11.png --> prodeng01.png
+Renamed : prodeng27.jpg --> prodeng02.jpg
+Renamed : prodeng32.jpg --> prodeng03.jpg
+Renamed : prodeng32.png --> prodeng02.png
+Renamed : prodeng33.png --> prodeng03.png
+Renamed : prodeng47.png --> prodeng04.png
+Renamed : prodeng55.jpg --> prodeng04.jpg
+Renamed : prodeng55.png --> prodeng05.png
+Renamed : prodeng56.jpg --> prodeng05.jpg
+Renamed : prodeng68.jpg --> prodeng06.jpg
+Renamed : prodeng72.png --> prodeng06.png
+Renamed : prodeng94.png --> prodeng07.png
+Warning : Skipping unnumberedFile.jpg. It does not fit into the renaming rules.
+Renamed : weta17.jpg --> weta01.jpg
+Renamed : weta22.jpg --> weta02.jpg
+Renamed : weta37.jpg --> weta03.jpg
+Renamed : weta55.jpg --> weta04.jpg
+Renamed : weta96.jpg --> weta05.jpg
 
+-----------------------------------------------------------------------------------------------
 
 user@user-Z97X-UD3H-BK:~/git/sandbox_python/seq_renumber$ ./sequence_renumber.py -z 4 -r ./sample_b
-Renaming /home/user/git/sandbox_python/seq_renumber/sample_b/child_dir/prodeng11.jpg to /home/user/git/sandbox_python/seq_renumber/sample_b/child_dir/prodeng0001.jpg
-Renaming /home/user/git/sandbox_python/seq_renumber/sample_b/child_dir/prodeng11.png to /home/user/git/sandbox_python/seq_renumber/sample_b/child_dir/prodeng0001.png
-Renaming /home/user/git/sandbox_python/seq_renumber/sample_b/child_dir/prodeng27.jpg to /home/user/git/sandbox_python/seq_renumber/sample_b/child_dir/prodeng0002.jpg
-Renaming /home/user/git/sandbox_python/seq_renumber/sample_b/child_dir/prodeng32.jpg to /home/user/git/sandbox_python/seq_renumber/sample_b/child_dir/prodeng0003.jpg
-Renaming /home/user/git/sandbox_python/seq_renumber/sample_b/child_dir/prodeng32.png to /home/user/git/sandbox_python/seq_renumber/sample_b/child_dir/prodeng0002.png
-Renaming /home/user/git/sandbox_python/seq_renumber/sample_b/child_dir/prodeng33.png to /home/user/git/sandbox_python/seq_renumber/sample_b/child_dir/prodeng0003.png
-Renaming /home/user/git/sandbox_python/seq_renumber/sample_b/child_dir/prodeng47.png to /home/user/git/sandbox_python/seq_renumber/sample_b/child_dir/prodeng0004.png
-Renaming /home/user/git/sandbox_python/seq_renumber/sample_b/child_dir/prodeng55.jpg to /home/user/git/sandbox_python/seq_renumber/sample_b/child_dir/prodeng0004.jpg
-Renaming /home/user/git/sandbox_python/seq_renumber/sample_b/child_dir/prodeng55.png to /home/user/git/sandbox_python/seq_renumber/sample_b/child_dir/prodeng0005.png
-Renaming /home/user/git/sandbox_python/seq_renumber/sample_b/child_dir/prodeng56.jpg to /home/user/git/sandbox_python/seq_renumber/sample_b/child_dir/prodeng0005.jpg
-Renaming /home/user/git/sandbox_python/seq_renumber/sample_b/child_dir/prodeng68.jpg to /home/user/git/sandbox_python/seq_renumber/sample_b/child_dir/prodeng0006.jpg
-Renaming /home/user/git/sandbox_python/seq_renumber/sample_b/child_dir/prodeng72.png to /home/user/git/sandbox_python/seq_renumber/sample_b/child_dir/prodeng0006.png
-Renaming /home/user/git/sandbox_python/seq_renumber/sample_b/child_dir/prodeng94.png to /home/user/git/sandbox_python/seq_renumber/sample_b/child_dir/prodeng0007.png
-Renaming /home/user/git/sandbox_python/seq_renumber/sample_b/child_dir/weta17.jpg to /home/user/git/sandbox_python/seq_renumber/sample_b/child_dir/weta0001.jpg
-Renaming /home/user/git/sandbox_python/seq_renumber/sample_b/child_dir/weta22.jpg to /home/user/git/sandbox_python/seq_renumber/sample_b/child_dir/weta0002.jpg
-Renaming /home/user/git/sandbox_python/seq_renumber/sample_b/child_dir/weta37.jpg to /home/user/git/sandbox_python/seq_renumber/sample_b/child_dir/weta0003.jpg
-Renaming /home/user/git/sandbox_python/seq_renumber/sample_b/child_dir/weta55.jpg to /home/user/git/sandbox_python/seq_renumber/sample_b/child_dir/weta0004.jpg
-Renaming /home/user/git/sandbox_python/seq_renumber/sample_b/child_dir/weta96.jpg to /home/user/git/sandbox_python/seq_renumber/sample_b/child_dir/weta0005.jpg
-Renaming /home/user/git/sandbox_python/seq_renumber/sample_b/prodeng11.jpg to /home/user/git/sandbox_python/seq_renumber/sample_b/prodeng0001.jpg
-Renaming /home/user/git/sandbox_python/seq_renumber/sample_b/prodeng11.png to /home/user/git/sandbox_python/seq_renumber/sample_b/prodeng0001.png
-Renaming /home/user/git/sandbox_python/seq_renumber/sample_b/prodeng27.jpg to /home/user/git/sandbox_python/seq_renumber/sample_b/prodeng0002.jpg
-Renaming /home/user/git/sandbox_python/seq_renumber/sample_b/prodeng32.jpg to /home/user/git/sandbox_python/seq_renumber/sample_b/prodeng0003.jpg
-Renaming /home/user/git/sandbox_python/seq_renumber/sample_b/prodeng32.png to /home/user/git/sandbox_python/seq_renumber/sample_b/prodeng0002.png
-Renaming /home/user/git/sandbox_python/seq_renumber/sample_b/prodeng33.png to /home/user/git/sandbox_python/seq_renumber/sample_b/prodeng0003.png
-Renaming /home/user/git/sandbox_python/seq_renumber/sample_b/prodeng47.png to /home/user/git/sandbox_python/seq_renumber/sample_b/prodeng0004.png
-Renaming /home/user/git/sandbox_python/seq_renumber/sample_b/prodeng55.jpg to /home/user/git/sandbox_python/seq_renumber/sample_b/prodeng0004.jpg
-Renaming /home/user/git/sandbox_python/seq_renumber/sample_b/prodeng55.png to /home/user/git/sandbox_python/seq_renumber/sample_b/prodeng0005.png
-Renaming /home/user/git/sandbox_python/seq_renumber/sample_b/prodeng56.jpg to /home/user/git/sandbox_python/seq_renumber/sample_b/prodeng0005.jpg
-Renaming /home/user/git/sandbox_python/seq_renumber/sample_b/prodeng68.jpg to /home/user/git/sandbox_python/seq_renumber/sample_b/prodeng0006.jpg
-Renaming /home/user/git/sandbox_python/seq_renumber/sample_b/prodeng72.png to /home/user/git/sandbox_python/seq_renumber/sample_b/prodeng0006.png
-Renaming /home/user/git/sandbox_python/seq_renumber/sample_b/prodeng94.png to /home/user/git/sandbox_python/seq_renumber/sample_b/prodeng0007.png
-Warning : Skipping item unnumberedFile.jpg. It does not fit into the renaming rules
-Renaming /home/user/git/sandbox_python/seq_renumber/sample_b/weta17.jpg to /home/user/git/sandbox_python/seq_renumber/sample_b/weta0001.jpg
-Renaming /home/user/git/sandbox_python/seq_renumber/sample_b/weta22.jpg to /home/user/git/sandbox_python/seq_renumber/sample_b/weta0002.jpg
-Renaming /home/user/git/sandbox_python/seq_renumber/sample_b/weta37.jpg to /home/user/git/sandbox_python/seq_renumber/sample_b/weta0003.jpg
-Renaming /home/user/git/sandbox_python/seq_renumber/sample_b/weta55.jpg to /home/user/git/sandbox_python/seq_renumber/sample_b/weta0004.jpg
-Renaming /home/user/git/sandbox_python/seq_renumber/sample_b/weta96.jpg to /home/user/git/sandbox_python/seq_renumber/sample_b/weta0005.jpg
+Renamed : child_dir/prodeng11.jpg --> child_dir/prodeng0001.jpg
+Renamed : child_dir/prodeng11.png --> child_dir/prodeng0001.png
+Renamed : child_dir/prodeng27.jpg --> child_dir/prodeng0002.jpg
+Renamed : child_dir/prodeng32.jpg --> child_dir/prodeng0003.jpg
+Renamed : child_dir/prodeng32.png --> child_dir/prodeng0002.png
+Renamed : child_dir/prodeng33.png --> child_dir/prodeng0003.png
+Renamed : child_dir/prodeng47.png --> child_dir/prodeng0004.png
+Renamed : child_dir/prodeng55.jpg --> child_dir/prodeng0004.jpg
+Renamed : child_dir/prodeng55.png --> child_dir/prodeng0005.png
+Renamed : child_dir/prodeng56.jpg --> child_dir/prodeng0005.jpg
+Renamed : child_dir/prodeng68.jpg --> child_dir/prodeng0006.jpg
+Renamed : child_dir/prodeng72.png --> child_dir/prodeng0006.png
+Renamed : child_dir/prodeng94.png --> child_dir/prodeng0007.png
+Warning : Skipping child_dir/unnumberedFile.jpg. It does not fit into the renaming rules.
+Renamed : child_dir/weta17.jpg --> child_dir/weta0001.jpg
+Renamed : child_dir/weta22.jpg --> child_dir/weta0002.jpg
+Renamed : child_dir/weta37.jpg --> child_dir/weta0003.jpg
+Renamed : child_dir/weta55.jpg --> child_dir/weta0004.jpg
+Renamed : child_dir/weta96.jpg --> child_dir/weta0005.jpg
+Renamed : prodeng11.jpg --> prodeng0001.jpg
+Renamed : prodeng11.png --> prodeng0001.png
+Renamed : prodeng27.jpg --> prodeng0002.jpg
+Renamed : prodeng32.jpg --> prodeng0003.jpg
+Renamed : prodeng32.png --> prodeng0002.png
+Renamed : prodeng33.png --> prodeng0003.png
+Renamed : prodeng47.png --> prodeng0004.png
+Renamed : prodeng55.jpg --> prodeng0004.jpg
+Renamed : prodeng55.png --> prodeng0005.png
+Renamed : prodeng56.jpg --> prodeng0005.jpg
+Renamed : prodeng68.jpg --> prodeng0006.jpg
+Renamed : prodeng72.png --> prodeng0006.png
+Renamed : prodeng94.png --> prodeng0007.png
+Warning : Skipping unnumberedFile.jpg. It does not fit into the renaming rules.
+Renamed : weta17.jpg --> weta0001.jpg
+Renamed : weta22.jpg --> weta0002.jpg
+Renamed : weta37.jpg --> weta0003.jpg
+Renamed : weta55.jpg --> weta0004.jpg
+Renamed : weta96.jpg --> weta0005.jpg
+

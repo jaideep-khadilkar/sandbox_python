@@ -6,13 +6,16 @@ import sys
 import argparse
 import logging
 
-def SequenceRenumber(sourceDir="",padZero=0,recursive=False):
+def SequenceRenumber(sourceDir='',padZero=0,recursive=False,rootDir=''):
+    # Validate Inputs
     if not os.path.isdir(sourceDir):
         print 'Error : {0} directory does not exist !'.format(sourceDir)
         return
     if(padZero<0):
         print 'Error : Zero padding value should not be negative'
         return
+    if(rootDir==''):
+        rootDir = sourceDir
 
     items = os.listdir(sourceDir)
     items.sort()
@@ -24,7 +27,7 @@ def SequenceRenumber(sourceDir="",padZero=0,recursive=False):
             pattern = r"(?P<name>[a-zA-Z0-9_]+[a-zA-Z_]+)(?P<number>[0-9]+)\.(?P<extension>[a-zA-Z0-9]+)"
             match = re.match(pattern,item)
             if(not match):
-                print 'Warning : Skipping item {0}. It does not fit into the renaming rules'.format(item)
+                print 'Warning : Skipping {0}. It does not fit into the renaming rules.'.format(os.path.relpath(fullPath,rootDir))
                 continue
             name = match.group('name')
             number = match.group('number')
@@ -35,15 +38,16 @@ def SequenceRenumber(sourceDir="",padZero=0,recursive=False):
                 sequenceMap[(name,extension)] = 1
             itemRename = '{0}{1}.{2}'.format(name,str(sequenceMap[(name,extension)]).zfill(padZero),extension)
             fullPathRename = os.path.join(sourceDir,itemRename)
-            print 'Renamed: {0} --> {1}'.format(fullPath,fullPathRename)
+            print 'Renamed : {0} --> {1}'.format(os.path.relpath(fullPath,rootDir),os.path.relpath(fullPathRename,rootDir))
             os.rename(fullPath,fullPathRename)
         else:
             if os.path.isdir(fullPath):
                 if recursive:
-                    SequenceRenumber(fullPath, padZero, recursive)
+                    SequenceRenumber(fullPath, padZero, recursive,rootDir=sourceDir)
                 else:
                     print 'Warning : Skipping directory {0}'.format(item)
                     continue
+    return
 
 if __name__ == '__main__':
     
