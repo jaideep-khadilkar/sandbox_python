@@ -1,4 +1,6 @@
 
+# https://www.hackerrank.com/challenges/collections-counter/problem
+
 from collections import Counter
 
 X = int(raw_input())

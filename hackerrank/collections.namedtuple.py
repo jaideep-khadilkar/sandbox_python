@@ -1,4 +1,6 @@
 
+# https://www.hackerrank.com/challenges/py-collections-namedtuple/problem
+
 from collections import namedtuple
 N = int(raw_input())
 attribs = raw_input().split()
