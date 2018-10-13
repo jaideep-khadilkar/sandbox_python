@@ -1,4 +1,10 @@
 """
+https://rszalski.github.io/magicmethods/
+"""
+
+import math
+
+"""
 __new__
 """
 
@@ -66,7 +72,7 @@ import functools
 
 
 @functools.total_ordering
-class Number:
+class NumberA(object):
     def __init__(self, value):
         self.value = value
 
@@ -77,13 +83,33 @@ class Number:
         return self.value == other.value
 
 
-assert Number(1) < Number(2)
-assert Number(1) <= Number(1)
-assert Number(1) <= Number(2)
-assert Number(1) == Number(1)
-assert Number(1) >= Number(1)
-assert Number(2) >= Number(1)
-assert Number(2) > Number(1)
+assert NumberA(1) < NumberA(2)
+assert NumberA(1) <= NumberA(1)
+assert NumberA(1) <= NumberA(2)
+assert NumberA(1) == NumberA(1)
+assert NumberA(1) >= NumberA(1)
+assert NumberA(2) >= NumberA(1)
+assert NumberA(2) > NumberA(1)
+
+"""
+Unary operators and functions
+"""
 
 
+class NumberB(object):
+    def __init__(self, value):
+        self.value = value
 
+    def __pos__(self):
+        return self.value
+
+    def __neg__(self):
+        return -1 * self.value
+
+    def __abs__(self):
+        return abs(self.value)
+
+
+print +NumberB(10)
+print -NumberB(10)
+print abs(NumberB(-32))
